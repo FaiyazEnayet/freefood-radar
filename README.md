@@ -24,7 +24,7 @@ flowchart LR
     A[Public sources<br/>SB Engaged · Instagram · Discord] --> B[Scrapers<br/>polite, robots.txt aware]
     B --> C[Event candidates]
     C --> D[NLP classifier<br/>TF-IDF + logistic regression<br/>Platt-calibrated]
-    D --> E[Expected-value ranker<br/>P(food) x food quality]
+    D --> E["Expected-value ranker<br/>P(food) x food quality"]
     E --> F[Daily digest<br/>+ campus map]
     E --> G[Watchlist alerts]
     C --> H[Historical analytics<br/>top clubs · best days/times]
