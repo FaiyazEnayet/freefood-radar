@@ -7,7 +7,7 @@
 
 Free pizza, SAC lobby, 5 PM today. That's the whole pitch.
 
-Every week, Stony Brook clubs post dozens of events. A good fraction of them mention free food — pizza at the GBM, boba at the premiere night, biryani at the community dinner. The problem is finding them. Announcements scatter across SB Engaged, club Instagrams, and Discord servers, and nobody reads all three.
+Every week, Stony Brook clubs post dozens of events. A good fraction of them mention free food, pizza at the GBM, boba at the premiere night, biryani at the community dinner. The problem is finding them. Announcements scatter across SB Engaged, club Instagrams, and Discord servers, and nobody reads all three.
 
 Free Food Radar reads them for you. It scrapes public campus sources, scores every event blurb with a trained NLP classifier, ranks the hits by expected value, and publishes a daily digest with a campus map. Set a watchlist for your favorite foods and it flags matches.
 
