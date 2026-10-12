@@ -15,7 +15,7 @@ Free Food Radar reads them for you. It scrapes public campus sources, scores eve
 
 [![Free Food Radar dashboard preview](docs/demo.gif)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
-[Open the interactive dashboard](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html).
+**[Open the interactive dashboard](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html).** Campus map with today's pins, the confidence-ranked digest, classifier report cards, and historical analytics. One self-contained HTML file, no server needed. The animation above tours the same panels, rendered by `scripts/make_demo_gif.py`.
 
 ## How it works
 
@@ -61,22 +61,22 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/ -q
 
 ## Project layout
 
-- `src/radar/scrapers/` — `corq.py` (SB Engaged), `discord.py` (widget JSON), `instagram.py` (public posts), `base.py` (polite fetching)
-- `src/radar/classifier.py` — training, calibration, evaluation
-- `src/radar/features.py` — food-quality weights and expected value
-- `src/radar/digest.py` — ranking + markdown digest
-- `src/radar/stats.py` — historical analytics
-- `src/radar/watchlist.py` — favorite-food alerts
-- `data/labeled.csv` — 160 hand-labeled training examples
-- `data/seed_events.json` — 48 realistic SBU events for the demo
-- `data/campus_places.json` — approximate building coordinates for the map
-- `scripts/` — `train_classifier.py`, `build_digest.py`, `make_dashboard.py`, `make_demo_gif.py`, `make_labeled.py`, `make_seed.py`
-- `tests/` — 22 tests: classifier metrics, scraper fixtures, digest, stats, watchlist
-- `docs/dashboard.html` — the interactive dashboard, one self-contained file
+- `src/radar/scrapers/`: `corq.py` (SB Engaged), `discord.py` (widget JSON), `instagram.py` (public posts), `base.py` (polite fetching)
+- `src/radar/classifier.py`: training, calibration, evaluation
+- `src/radar/features.py`: food-quality weights and expected value
+- `src/radar/digest.py`: ranking + markdown digest
+- `src/radar/stats.py`: historical analytics
+- `src/radar/watchlist.py`: favorite-food alerts
+- `data/labeled.csv`: 160 hand-labeled training examples
+- `data/seed_events.json`: 48 realistic SBU events for the demo
+- `data/campus_places.json`: approximate building coordinates for the map
+- `scripts/`: `train_classifier.py`, `build_digest.py`, `make_dashboard.py`, `make_demo_gif.py`, `make_labeled.py`, `make_seed.py`
+- `tests/`: 22 tests: classifier metrics, scraper fixtures, digest, stats, watchlist
+- `docs/dashboard.html`: the interactive dashboard, one self-contained file
 
 ## Limitations
 
-- The demo digest runs on a seeded set of 48 realistic SBU events, not a live scrape: SB Engaged's event listing sits behind login from this environment, Instagram's public pages need a session, and Discord's widget only works for servers with it enabled. The scraper code is real and tested against fixtures — point it at reachable sources and the pipeline runs unchanged.
+- The demo digest runs on a seeded set of 48 realistic SBU events, not a live scrape: SB Engaged's event listing sits behind login from this environment, Instagram's public pages need a session, and Discord's widget only works for servers with it enabled. The scraper code is real and tested against fixtures. Point it at reachable sources and the pipeline runs unchanged.
 - The classifier trains on 160 hand-labeled examples. That's enough for a strong demo (89.5% precision) but a production version wants thousands of real labeled blurbs and periodic retraining as club language drifts.
 - Campus map coordinates are approximate, good enough to find the building, not the room.
 - The watchlist matches keywords; it doesn't understand negations yet ("no pizza, just salad" would still alert).
