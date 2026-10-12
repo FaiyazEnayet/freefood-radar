@@ -7,7 +7,7 @@
 
 Free pizza, SAC lobby, 5 PM today. That's the whole pitch.
 
-Every week, Stony Brook clubs post dozens of events. A good fraction of them mention free food, pizza at the GBM, boba at the premiere night, biryani at the community dinner. The problem is finding them. Announcements scatter across SB Engaged, club Instagrams, and Discord servers, and nobody reads all three.
+Every week, Stony Brook clubs post dozens of events. A good fraction of them mention free food: pizza at the GBM, boba at the premiere night, biryani at the community dinner. The problem is finding them. Announcements scatter across SB Engaged, club Instagrams, and Discord servers, and nobody reads all three.
 
 Free Food Radar reads them for you. It scrapes public campus sources, scores every event blurb with a trained NLP classifier, ranks the hits by expected value, and publishes a daily digest with a campus map. Set a watchlist for your favorite foods and it flags matches.
 
@@ -32,9 +32,9 @@ flowchart LR
 
 **Scrapers.** Three public-source scrapers, all polite: they check robots.txt, throttle requests, and never touch login-gated pages. SB Engaged (CampusGroups) for the club event listing, Discord's public widget JSON for server announcements, and Instagram's public post metadata. Each returns normalized `Event` objects.
 
-**Classifier.** The quant core. A TF-IDF (1-2 grams) plus logistic regression pipeline, trained on 160 hand-labeled SBU-style event blurbs — 80 free-food mentions, 80 tricky negatives like food drives, potlucks, and "food for thought." Platt scaling calibrates the probabilities, so a 0.8 means food four times out of five. Held-out test results: **87.5% accuracy, 89.5% precision, 85.0% recall** (40 test examples, seed 7).
+**Classifier.** The quant core. A TF-IDF (1-2 grams) plus logistic regression pipeline, trained on 160 hand-labeled SBU-style event blurbs. 80 free-food mentions, 80 tricky negatives like food drives, potlucks, and "food for thought." Platt scaling calibrates the probabilities, so a 0.8 means food four times out of five. Held-out test results: **87.5% accuracy, 89.5% precision, 85.0% recall** (40 test examples, seed 7).
 
-**Expected-value ranking.** A raw probability doesn't tell you whether it's worth the walk. Each hit also gets a food-quality score from transparent keyword weights — pizza and biryani outrank "light refreshments" — and the digest ranks by `P(food) x quality`. On the demo week, 48 candidates became 28 ranked hits.
+**Expected-value ranking.** A raw probability doesn't tell you whether it's worth the walk. Each hit also gets a food-quality score from transparent keyword weights (pizza and biryani outrank "light refreshments"), and the digest ranks by `P(food) x quality`. On the demo week, 48 candidates became 28 ranked hits.
 
 **Watchlist.** Keep a list of favorite foods (`pizza`, `boba`, `tacos`...). Every scored event mentioning one becomes an alert. Ten alerts fired on the demo week for the default list.
 
