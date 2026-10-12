@@ -15,7 +15,7 @@ Free Food Radar reads them for you. It scrapes public campus sources, scores eve
 
 [![Free Food Radar dashboard preview](docs/demo.gif)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
-**[Open the interactive dashboard](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html).** Campus map with today's pins, the confidence-ranked digest, classifier report cards, and historical analytics. One self-contained HTML file, no server needed. The animation above tours the same panels, rendered by `scripts/make_demo_gif.py`.
+**[Open the interactive dashboard](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html).
 
 ## How it works
 
