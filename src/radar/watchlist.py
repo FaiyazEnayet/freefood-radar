@@ -2,7 +2,7 @@
 
 A student keeps a small list of favorite foods ("pizza", "boba",
 "tacos"). After scoring, every event whose text mentions a favorite
-(and passes the classifier bar) becomes an alert. Pure matching logic —
+(and passes the classifier bar) becomes an alert. Pure matching logic;
 delivery (email/push) is left to the caller.
 """
 
