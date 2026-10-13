@@ -5,7 +5,7 @@ endpoint — no token, no login:
 
     https://discord.com/api/guilds/{guild_id}/widget.json
 
-It lists online members and, crucially for us, the server's invite
+It lists online members and, most usefully, the server's invite
 channels. Many SBU club servers also mirror event announcements in a
 public #announcements channel surfaced through the widget. This scraper
 reads the widget JSON for a configured list of guild IDs and extracts

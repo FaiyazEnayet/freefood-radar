@@ -4,7 +4,7 @@ SB Engaged (Stony Brook's club portal) runs on CampusGroups. Its public
 event cards are reachable without a login; the admin calendar is not.
 This scraper parses the public event listing and each event's public
 detail page. If the listing ever moves behind login, scrape() returns
-what it can and flags the rest — it never attempts credentialed access.
+what it can and flags the rest. It never attempts credentialed access.
 """
 
 from __future__ import annotations

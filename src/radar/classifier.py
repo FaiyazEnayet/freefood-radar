@@ -2,7 +2,7 @@
 
 Pipeline: TF-IDF (word 1-2 grams) -> LogisticRegression -> Platt
 scaling (CalibratedClassifierCV, sigmoid) so the output probabilities
-are actually calibrated — a 0.8 should mean food four times out of five.
+are actually calibrated: a 0.8 should mean food four times out of five.
 
 Trained on data/labeled.csv (hand-labeled SBU-style event blurbs).
 """
