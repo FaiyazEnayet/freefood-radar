@@ -1,17 +1,18 @@
-<p align="center"><img src="docs/readme-banner.svg" alt="Freefood-Radar: Public campus events, ranked with food evidence" width="1200"></p>
+<p align="center"><img src="docs/readme-banner.svg?v=type-20261017b" alt="Freefood-Radar: Public campus events, ranked with food evidence" width="1200"></p>
 
 [![Tests](https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-007EC6)](LICENSE) ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB) ![Built with scikit learn + public ICS](https://img.shields.io/badge/built%20with-scikit%20learn%20%2B%20public%20ICS-555555) [![Interactive demo](https://img.shields.io/badge/demo-interactive-4C9D39)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
-<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><b>Open interactive demo</b></a> · <a href="docs/dashboard.html">HTML file</a> · <a href="#method">Method</a> · <a href="#run-locally">Run locally</a> · <a href="#limitations">Limitations</a></p>
+<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><b>Open interactive demo</b></a> · <a href="#method">Method</a> · <a href="#run-locally">Run locally</a></p>
 
 # Freefood-Radar
 
 Freefood-Radar reads SB Engaged’s public calendar and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains an unverified model prediction.
 
-**Python · public calendar ingestion · calibrated text classification**
 
-[![Freefood-Radar demo](docs/demo.gif?v=data-20261017)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
+[![Freefood-Radar demo](docs/demo.gif?v=showcase-20261017b)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
+
+An event’s predicted food relevance and the reliability of its listing are separate considerations. The interface keeps the official source, event time, snapshot freshness and location availability close to each recommendation. A saved candidate still requires checking the organizer’s current details; the public feed does not verify that food will be available when a student arrives.
 
 ## Explore
 
