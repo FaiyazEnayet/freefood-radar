@@ -261,4 +261,11 @@ def _portfolio_html(raw):
     return render_html(root, 'freefood-radar', raw)[0]
 
 if __name__ == "__main__":
-    main()
+    from pathlib import Path
+    project_root = Path(__file__).resolve().parents[1]
+    if (project_root / "data/sbengaged-events.json").exists():
+        sys.path.insert(0, str(project_root / "portfolio_ui"))
+        from renderer import render
+        render(project_root, "freefood-radar", project_root / "portfolio_ui/original-dashboard-snapshot.html", project_root / "docs/dashboard.html")
+    else:
+        main()
