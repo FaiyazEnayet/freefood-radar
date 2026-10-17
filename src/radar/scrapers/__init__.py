@@ -13,3 +13,5 @@ __all__ = [
     "DiscordWidgetScraper",
     "InstagramScraper",
 ]
+
+from .sbengaged import fetch_calendar, parse_calendar
