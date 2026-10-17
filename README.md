@@ -33,6 +33,10 @@ The public ICS calendar is filtered to not-ended events in a rolling 14-day wind
 | Historical labeled-text test | 40 examples; precision 89.5%; recall 85.0% |
 | Live-feed validation | Food-availability precision and calibration are not yet established |
 
+## Updating this project
+
+Dashboard source language: **Python**. Generator: `scripts/make_dashboard.py and scripts/refresh_sbengaged.py`. To keep the interactive page, figures, data animation, and README consistent, follow [the coding-agent update guide](AGENT-DASHBOARD-GUIDE.md). The local interactive output is `docs/dashboard.html`.
+
 ## Run locally
 
 
