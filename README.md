@@ -10,9 +10,8 @@ Freefood-Radar reads SB Engaged’s public calendar and ranks possible food oppo
 
 **Python · public calendar ingestion · calibrated text classification**
 
-[![Recorded tour of the Freefood-Radar dashboard](docs/demo.gif)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
+[![Freefood-Radar demo](docs/demo.gif)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
-*The GIF is a recorded tour of the actual dashboard. Click it for the interactive HTML. The prebuilt HTML opens locally without an application server.*
 
 ## Explore
 
@@ -35,7 +34,6 @@ The public ICS calendar is filtered to not-ended events in a rolling 14-day wind
 
 ## Run locally
 
-Start with the prebuilt [HTML file](docs/dashboard.html) for a dependency-free review. To run the source:
 
 ```sh
 python -m pip install -r requirements.txt
@@ -44,11 +42,31 @@ python scripts/refresh_sbengaged.py --days 14
 python -m pytest tests -q
 ```
 
+## Technical design
+
+The ingestion layer reads the public calendar advertised by SB Engaged. It filters a rolling time window, handles source identity and cancellation state, and records fetch provenance. Text is scored by the repository’s existing small-data classifier. The browser displays the dated snapshot and stores saved event IDs locally.
+
+```mermaid
+flowchart LR
+  N0["Public SB Engaged calendar"] --> N1["Validate filter and deduplicate"]
+  N1["Validate filter and deduplicate"] --> N2["Text classifier"]
+  N2["Text classifier"] --> N3["Inspectable food ranking"]
+  N3["Inspectable food ranking"] --> N4["Dated HTML snapshot"]
+  N5["Daily workflow"] --> N0["Public SB Engaged calendar"]
+```
+
+## Evaluation protocol
+
+The original labeled-text test is separate from the public feed. Its precision and recall describe that held-out sample, not verified campus food availability. Public-source events can still be cancelled, restricted or have locations withheld behind sign-in. The UI links back to the source rather than fabricating missing details.
+
+![Historical held-out text-classification results](docs/results.png)
+
+An official listing establishes that the event was published, not that food is free or available when a student arrives. The model probability and food-quality weight are ranking aids. Source freshness and organizer details remain necessary for a useful decision.
+
 ## Code and data
 
 `src/radar/scrapers/sbengaged.py` parses the public calendar. `live.py` validates and scores snapshots. `data/sbengaged-status.json` records refresh health. [Integration notes](SBENGAGED-INTEGRATION.md) document the contract and daily workflow.
 
-The dashboard preserves source outputs. Rebuilding research results can require additional data or compute; opening the supplied HTML does not.
 
 ## Limitations
 
