@@ -19,6 +19,8 @@ dependencies = [
     "plotly>=5.0",
     "matplotlib>=3.6",
     "pillow>=9.0",
+    "icalendar>=6.0,<8",
+    "tzdata>=2025.1",
 ]
 
 [project.optional-dependencies]

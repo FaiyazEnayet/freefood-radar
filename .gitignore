@@ -4,3 +4,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .DS_Store/
+
+.cache/
+models/*.joblib
+models/calibration.npz
