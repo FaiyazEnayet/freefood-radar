@@ -10,7 +10,7 @@ Freefood-Radar reads SB Engaged’s public calendar and ranks possible food oppo
 
 **Python · public calendar ingestion · calibrated text classification**
 
-[![Freefood-Radar demo](docs/demo.gif)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
+[![Freefood-Radar demo](docs/demo.gif?v=data-20261017)](https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html)
 
 
 ## Explore
