@@ -1,0 +1,57 @@
+name: Refresh public SB Engaged events
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 11 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'src/radar/live.py'
+      - 'src/radar/scrapers/sbengaged.py'
+      - 'scripts/refresh_sbengaged.py'
+      - 'portfolio_ui/**'
+      - '.github/workflows/sbengaged.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sbengaged-public-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Validate feed contract and failure handling
+        run: python -m pytest tests/test_sbengaged.py -q
+      - name: Refresh public source snapshot and dashboard
+        id: refresh
+        continue-on-error: true
+        run: python scripts/refresh_sbengaged.py --days 14
+      - name: Commit only generated public artifacts
+        if: always() && steps.refresh.outcome != 'skipped'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/sbengaged-events.json data/sbengaged-status.json docs/dashboard.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh public SB Engaged snapshot'
+            git push
+          fi
+      - name: Surface a failed source refresh
+        if: steps.refresh.outcome == 'failure'
+        run: |
+          echo 'Public refresh failed; last good data retained. Inspect data/sbengaged-status.json.'
+          exit 1
