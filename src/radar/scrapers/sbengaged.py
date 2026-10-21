@@ -83,6 +83,7 @@ def parse_calendar(raw: bytes, now: datetime, days: int = 14) -> tuple[list[dict
             newest[uid] = (key, item)
     events = []
     cancelled = 0
+    out_of_window = 0
     until = now + timedelta(days=days)
     for uid, (_, item) in newest.items():
         if str(item.get("STATUS", "")).upper() == "CANCELLED":
@@ -95,6 +96,7 @@ def parse_calendar(raw: bytes, now: datetime, days: int = 14) -> tuple[list[dict
             if end is not None and end < start:
                 raise ValueError("negative duration")
             if start >= until or (end or start) <= now:
+                out_of_window += 1
                 continue
         except (ValueError, TypeError, KeyError):
             rejected += 1
@@ -123,7 +125,8 @@ def parse_calendar(raw: bytes, now: datetime, days: int = 14) -> tuple[list[dict
         raise FeedError(f"Too many invalid events ({rejected}); keeping the last good snapshot")
     return sorted(events, key=lambda x: (datetime.fromisoformat(x["starts_at"]).timestamp(), x["id"])), dict(
         source_components=len(components), unique_uids=len(newest), cancelled=cancelled,
-        invalid_records=rejected, selected_events=len(events), source_sha256=sha256(raw).hexdigest(),
+        invalid_records=rejected, out_of_window=out_of_window, selected_events=len(events),
+        source_sha256=sha256(raw).hexdigest(),
         window_start=now.isoformat(), window_end=until.isoformat(),
     )
 
