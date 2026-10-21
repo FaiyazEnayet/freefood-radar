@@ -1,0 +1,274 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//tests//EN
+BEGIN:VEVENT
+UID:full-01
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-01
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-01
+END:VEVENT
+BEGIN:VEVENT
+UID:full-02
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-02
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-02
+END:VEVENT
+BEGIN:VEVENT
+UID:full-03
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-03
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-03
+END:VEVENT
+BEGIN:VEVENT
+UID:full-04
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-04
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-04
+END:VEVENT
+BEGIN:VEVENT
+UID:full-05
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-05
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-05
+END:VEVENT
+BEGIN:VEVENT
+UID:full-06
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-06
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-06
+END:VEVENT
+BEGIN:VEVENT
+UID:full-07
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-07
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-07
+END:VEVENT
+BEGIN:VEVENT
+UID:full-08
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-08
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-08
+END:VEVENT
+BEGIN:VEVENT
+UID:full-09
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-09
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-09
+END:VEVENT
+BEGIN:VEVENT
+UID:full-10
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-10
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-10
+END:VEVENT
+BEGIN:VEVENT
+UID:full-11
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-11
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-11
+END:VEVENT
+BEGIN:VEVENT
+UID:full-12
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-12
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-12
+END:VEVENT
+BEGIN:VEVENT
+UID:full-13
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-13
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-13
+END:VEVENT
+BEGIN:VEVENT
+UID:full-14
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-14
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-14
+END:VEVENT
+BEGIN:VEVENT
+UID:full-15
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-15
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-15
+END:VEVENT
+BEGIN:VEVENT
+UID:full-16
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-16
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-16
+END:VEVENT
+BEGIN:VEVENT
+UID:full-17
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-17
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-17
+END:VEVENT
+BEGIN:VEVENT
+UID:full-18
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-18
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-18
+END:VEVENT
+BEGIN:VEVENT
+UID:full-19
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-19
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-19
+END:VEVENT
+BEGIN:VEVENT
+UID:full-20
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-20
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-20
+END:VEVENT
+BEGIN:VEVENT
+UID:full-21
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-21
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-21
+END:VEVENT
+BEGIN:VEVENT
+UID:full-22
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-22
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-22
+END:VEVENT
+BEGIN:VEVENT
+UID:full-23
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-23
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-23
+END:VEVENT
+BEGIN:VEVENT
+UID:full-24
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-24
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-24
+END:VEVENT
+BEGIN:VEVENT
+UID:full-25
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-25
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-25
+END:VEVENT
+BEGIN:VEVENT
+UID:full-26
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-26
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-26
+END:VEVENT
+BEGIN:VEVENT
+UID:full-27
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-27
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-27
+END:VEVENT
+BEGIN:VEVENT
+UID:full-28
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-28
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-28
+END:VEVENT
+BEGIN:VEVENT
+UID:full-29
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-29
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-29
+END:VEVENT
+BEGIN:VEVENT
+UID:full-30
+DTSTART:20261018T160000Z
+DTEND:20261018T180000Z
+SUMMARY:Free food event full-30
+DESCRIPTION:Food provided
+LOCATION:SAC 302
+URL:https://sbengaged.stonybrook.edu/rsvp?id=full-30
+END:VEVENT
+END:VCALENDAR
