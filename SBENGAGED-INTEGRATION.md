@@ -41,6 +41,16 @@ configured to serve docs/ may publish the new HTML through its existing settings
   schema appears, refresh fails visibly rather than silently losing recurrences.
 - A failed fetch, parse or scoring step preserves the last successful snapshot
   and writes a failed status. Demonstration events never replace public data.
+- Every refresh classifies the selected-event count against the last good
+  snapshot (`initial`, `stable`, `grew`, `shrank`, `verified_empty`,
+  `empty_suspect`, `severe_shrink_suspect`, plus `_confirmed` variants) and
+  records the state and both counts in the status file and the snapshot
+  diagnostics. A feed whose components are all cancelled, expired or outside
+  the window is a verified zero and may replace the snapshot. A feed with no
+  components at all, or a drop below half of a snapshot that had at least 20
+  events, is treated as a suspected source failure: the refresh fails, the
+  last good snapshot is kept, and the new result is accepted only when a
+  second, identical observation (same count, same source hash) confirms it.
 - Records source URL, fetch time, source-body hash, window, row diagnostics,
   training-data hash, model recipe, seed and inference library version.
 
