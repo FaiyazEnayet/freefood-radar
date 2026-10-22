@@ -1,9 +1,11 @@
 name: Refresh public SB Engaged events
 
+
 on:
   workflow_dispatch:
   schedule:
     - cron: '17 11 * * *'
+
   push:
     branches: [main]
     paths:
@@ -13,12 +15,15 @@ on:
       - 'portfolio_ui/**'
       - '.github/workflows/sbengaged.yml'
 
+
 permissions:
   contents: read
+
 
 concurrency:
   group: sbengaged-public-refresh
   cancel-in-progress: false
+
 
 jobs:
   refresh:
@@ -40,8 +45,33 @@ jobs:
         id: refresh
         continue-on-error: true
         run: python scripts/refresh_sbengaged.py --days 14
+      - name: Validate publication artifacts
+        id: validate
+        run: |
+          python - <<'PYEOF'
+          import json, sys
+          from pathlib import Path
+          p = Path('data/sbengaged-events.json')
+          if p.exists():
+              data = json.loads(p.read_text(encoding='utf8'))
+              assert data.get('classification') == 'public_source_snapshot', \
+                  f"bad classification: {data.get('classification')!r}"
+              assert data.get('schema_version') == 1, \
+                  f"bad schema_version: {data.get('schema_version')!r}"
+              bad = [e.get('id') for e in data.get('events', [])
+                     if e.get('source') == 'seed'
+                     or str(e.get('id', '')).startswith('seed-')
+                     or e.get('source') != 'sbengaged']
+              if bad:
+                  print(f"REJECTED: seeded/non-public records in publication artifact: {bad[:5]}")
+                  sys.exit(1)
+              print(f"OK: {len(data.get('events', []))} public-source events")
+          else:
+              print("No public source snapshot exists; status-only dashboard expected, "
+                    "no silent fallback.")
+          PYEOF
       - name: Commit only generated public artifacts
-        if: always() && steps.refresh.outcome != 'skipped'
+        if: always() && steps.refresh.outcome != 'skipped' && steps.validate.outcome == 'success'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
