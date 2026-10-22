@@ -1,7 +1,10 @@
 """Presentation-only postprocessor. Reads fresh source HTML; never changes research calculations.
 
-Usage: python portfolio_ui/renderer.py --repo NAME --root /path/to/repo --input docs/dashboard.html --output docs/dashboard.html
+Usage: python portfolio_ui/renderer.py --repo NAME --root /path/to/repo --input docs/dashboard.html --output docs/dashboard.html [--mode production|demo]
 Requires beautifulsoup4. The Sukuk alternative uses only stdlib plus beautifulsoup4.
+Modes (freefood-radar): production (default) publishes only validated public-source
+snapshots, or a marked no-snapshot status state; demo renders the explicit offline
+demonstration and must never target the production artifact path.
 """
 import argparse,base64,calendar,copy,datetime,hashlib,html,json,math,re,sys
 from pathlib import Path
@@ -10,6 +13,50 @@ from configs import CONFIGS
 from opening import opening
 HERE=Path(__file__).parent
 DEC=json.JSONDecoder()
+# Publication contract for freefood-radar production artifacts.
+PUBLIC_SNAPSHOT_CLASSIFICATION='public_source_snapshot'
+PUBLIC_SNAPSHOT_SCHEMA_VERSION=1
+PUBLIC_EVENT_SOURCE='sbengaged'
+SEED_ID_PREFIX='seed-'
+# Figure titles that are separately labeled historical evaluation (held-out
+# labeled text). Every other figure extracted from the demo source HTML is
+# seeded demonstration content and is excluded from production artifacts.
+HISTORICAL_FIGURE_TITLE_PREFIXES=('Classifier report','Calibration')
+def validate_publication_snapshot(payload):
+ """Check a snapshot payload against the public-source publication contract.
+
+ Returns a list of problem strings; an empty list means the payload may be
+ published. Rejects seeded records (source=seed or seed-prefixed IDs) and any
+ event whose source is not the public SB Engaged feed."""
+ problems=[]
+ if not isinstance(payload,dict):return ['snapshot payload is not a JSON object']
+ if payload.get('classification')!=PUBLIC_SNAPSHOT_CLASSIFICATION:problems.append('classification is %r, expected %r'%(payload.get('classification'),PUBLIC_SNAPSHOT_CLASSIFICATION))
+ if payload.get('schema_version')!=PUBLIC_SNAPSHOT_SCHEMA_VERSION:problems.append('schema_version is %r, expected %r'%(payload.get('schema_version'),PUBLIC_SNAPSHOT_SCHEMA_VERSION))
+ events=payload.get('events')
+ if not isinstance(events,list):problems.append('events is not a list')
+ else:
+  for e in events:
+   if not isinstance(e,dict):problems.append('an event record is not an object');break
+   eid=str(e.get('id',''));src=e.get('source')
+   if src=='seed' or eid.startswith(SEED_ID_PREFIX):problems.append('seeded record %r in publication payload'%eid);break
+   if src!=PUBLIC_EVENT_SOURCE:problems.append('event %r has non-public source %r'%(eid,src));break
+ return problems
+def _production_figures(figures):
+ """Keep separately labeled historical evaluation figures at their indices.
+
+ Seeded demonstration charts become explicit redaction markers, so production
+ payloads never package seeded chart arrays while positional consumers of the
+ historical figures keep working."""
+ out=[]
+ for f in figures:
+  title=''
+  try:
+   t=(f.get('layout') or {}).get('title') or {}
+   title=t.get('text','') if isinstance(t,dict) else ''
+  except AttributeError:pass
+  if isinstance(title,str) and title.startswith(HISTORICAL_FIGURE_TITLE_PREFIXES):out.append(f)
+  else:out.append({'redacted':True,'reason':'Seeded demonstration chart excluded from the production artifact; historical evaluation figures are retained separately.','original_title':title if isinstance(title,str) else ''})
+ return out
 def extract(raw,repo):
  soup=BeautifulSoup(raw,'html.parser');figs=[]
  for sc in soup.find_all('script'):
@@ -38,7 +85,7 @@ def extract(raw,repo):
   d['formula_data'].pop('cse214',None);d['formula_order']=[k for k in d['formula_order'] if k!='cse214']
  return d,soup
 def jsonfile(root,p):return json.loads((root/p).read_text(encoding='utf8'))
-def enrich(d,soup,root):
+def enrich(d,soup,root,mode='production'):
  repo=d['repo'];c=copy.deepcopy(CONFIGS[repo]);d['design']=c;d['metrics']=[]
  if repo=='neural-cppi':
   # The committed HTML and the original generator use different table treatments.
@@ -92,15 +139,37 @@ def enrich(d,soup,root):
   # Exact source tariff curve; weekdays use the source weekday curve, weekends the source off-peak price.
   p=d['figures'][0]['data'][2]['y'];prices=p if isinstance(p,list) else list(__import__('struct').unpack('<'+'d'*(len(base64.b64decode(p['bdata']))//8),base64.b64decode(p['bdata'])))
   d['tariff']=dict(data=[dict(type='heatmap',z=[prices]*5+[[min(prices)]*24]*2,x=list(range(24)),y=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],hovertemplate='%{y} %{x}:00<br>$%{z:.4f}/kWh<extra></extra>')],layout=dict(xaxis=dict(title=dict(text='Hour of day')),yaxis=dict(title=dict(text='Day')),showlegend=False))
- if repo=='freefood-radar':
+ if repo=='freefood-radar' and mode=='demo':
   m=jsonfile(root,'models/metrics.json');events=jsonfile(root,'data/seed_events.json');d['metrics']=[[str(len(events)),'seeded event records','demonstration only'],[str(len(d['figures'][1]['data'][0]['cells']['values'][0])),'ranked listings','source top 15'],[f"{m['precision']:.1%}",'classifier precision','held-out labeled text'],[f"{m['recall']:.1%}",'classifier recall','held-out labeled text']]
- if repo=='freefood-radar' and (root/'data/sbengaged-events.json').exists():
+ if repo=='freefood-radar' and mode=='demo' and (root/'data/sbengaged-events.json').exists():
   d['sbengaged']=jsonfile(root,'data/sbengaged-events.json')
   d['sbengaged_status']=jsonfile(root,'data/sbengaged-status.json') if (root/'data/sbengaged-status.json').exists() else {}
   c['classification']='Public SB Engaged source snapshot; separate historical labeled-text model evaluation'
   c['brief']='SB Engaged public calendar / food predictions'
   c['limits']=['Public calendar coverage only; private events and withheld locations are unavailable.', 'Event facts come from SB Engaged; food probabilities are model estimates and food availability is unverified.', 'Historical classifier evaluation does not establish accuracy or calibration on the live public feed.', 'The HTML is a dated offline snapshot. Refresh occurs through the supplied daily workflow or manual refresh script, not in the browser.', 'On refresh failure the last successful public snapshot is retained with an explicit error status. No demonstration events replace real source data.']
   c['sources']+=['data/sbengaged-events.json','data/sbengaged-status.json','src/radar/scrapers/sbengaged.py','src/radar/live.py']
+ if repo=='freefood-radar' and mode!='demo':
+  d['production_mode']=True
+  d['metrics']=[]
+  snapshot_path=root/'data/sbengaged-events.json';payload=None;load_error=None
+  if snapshot_path.exists():
+   try:payload=json.loads(snapshot_path.read_text(encoding='utf8'))
+   except ValueError as exc:load_error=str(exc)
+  if load_error is not None:raise ValueError('Refusing to render the production dashboard: data/sbengaged-events.json is not valid JSON (%s)'%load_error)
+  if payload is None:
+   d['no_snapshot']=True
+   d['sbengaged_status']=jsonfile(root,'data/sbengaged-status.json') if (root/'data/sbengaged-status.json').exists() else {}
+   d['figures']=[]
+  else:
+   problems=validate_publication_snapshot(payload)
+   if problems:raise ValueError('Refusing to render the production dashboard: '+'; '.join(problems))
+   d['sbengaged']=payload
+   d['sbengaged_status']=jsonfile(root,'data/sbengaged-status.json') if (root/'data/sbengaged-status.json').exists() else {}
+   c['classification']='Public SB Engaged source snapshot; separate historical labeled-text model evaluation'
+   c['brief']='SB Engaged public calendar / food predictions'
+   c['limits']=['Public calendar coverage only; private events and withheld locations are unavailable.', 'Event facts come from SB Engaged; food probabilities are model estimates and food availability is unverified.', 'Historical classifier evaluation does not establish accuracy or calibration on the live public feed.', 'The HTML is a dated offline snapshot. Refresh occurs through the supplied daily workflow or manual refresh script, not in the browser.', 'On refresh failure the last successful public snapshot is retained with an explicit error status. No demonstration events replace real source data.']
+   c['sources']+=['data/sbengaged-events.json','data/sbengaged-status.json','src/radar/scrapers/sbengaged.py','src/radar/live.py']
+   d['figures']=_production_figures(d['figures'])
  if repo=='sukuklab':
   anchor=datetime.date(2026,1,15);dates=[datetime.date(2026+i//2,(7 if i%2==0 else 1),15) for i in range(10)]
   # Explicit semiannual dates, matching Dates.Month increments in Julia.
@@ -131,8 +200,9 @@ def page_parts(d):
  head=f'''<!doctype html><html lang="en" style='{tokens};color-scheme:{'light' if cols[0][1:3] in ['ee','f1','f2','f3','f4'] else 'dark'}'><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="{cols[0]}"><title>{html.escape(c['name'])} | {d['repo']}</title><style>{font}</style><style>{css}</style></head><body data-repo="{d['repo']}"><a class="skip" href="#content">Skip to dashboard</a><div class="shell"><header class="masthead"><div class="identity"><svg class="seal" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9v14l-13 7L3 23V9ZM16 8v16M8 12l16 8M24 12 8 20" fill="none" stroke="currentColor" stroke-width="1"/></svg><b>{html.escape(d['repo'])}</b> / RESEARCH PORTFOLIO</div><div class="edition">FAIYAZ ENAYET<br>LOCAL EDITION · 2026</div></header><div class="hero"><div><div class="eyebrow">{html.escape(c['brief'])}</div><h1>{html.escape(c['name'])}</h1><p class="question">{html.escape(c['question'])}</p></div><div class="brief"><b>Evidence, with its boundaries.</b>{html.escape(c['classification'])}<br><span class="badge">SELF-CONTAINED SNAPSHOT</span></div></div><nav class="nav" aria-label="Dashboard sections">{nav}</nav><main id="content"></main><div id="status" class="status" role="status" aria-live="polite">Preparing local charts…</div><section class="source" id="sources"><h2>Evidence & limitations</h2><p>{html.escape(c['classification'])}. This page preserves the repository’s recorded results; it does not fetch live data or rerun research models.</p><ul>{limits}</ul><details><summary>Inspect data lineage and assumptions</summary><p>Source: <a href="{source}">FaiyazEnayet/{d['repo']}</a>. Recorded chart arrays are extracted from the committed dashboard. Additional views use the explicit source calculations documented in DESIGN-AND-VALIDATION.md. Research code and evaluation methods are preserved.</p><ul>{files}</ul><p>Source-file SHA-256 checksums are embedded in this file’s evidence payload. The accompanying validation report distinguishes automated checks from visual review.</p></details></section><footer class="footer"><span>{html.escape(c['name'])} · Faiyaz Enayet</span><span>Designed for inspection. Built from source evidence.</span></footer></div>'''
  head=re.sub(r'<header class="masthead">.*?<main id="content"></main>',opening(d,nav)+'<main id="content"></main>',head,flags=re.S)
  return head,js
-def render_html(root,repo,raw):
- d,soup=extract(raw,repo);d=enrich(d,soup,Path(root));head,js=page_parts(d)
+def render_html(root,repo,raw,mode='production'):
+ if mode not in ('production','demo'):raise ValueError('mode must be production or demo')
+ d,soup=extract(raw,repo);d=enrich(d,soup,Path(root),mode);head,js=page_parts(d)
  # Full source Plotly distribution: original reduced bundles silently downgrade unsupported traces.
  lib=(HERE/'plotly.min.js').read_text(encoding='utf8')
  katex=''
@@ -140,9 +210,13 @@ def render_html(root,repo,raw):
  payload=json.dumps(d,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
  result=head+katex+'<script>'+lib+'</script><script>const EVIDENCE='+payload+';\n'+js+'</script></body></html>'
  return result,d
-def render(root,repo,input_path,output_path):
- result,d=render_html(root,repo,Path(input_path).read_text(encoding='utf8'))
+def render(root,repo,input_path,output_path,mode='production'):
+ if mode=='demo':
+  out=Path(output_path).resolve();prod=(Path(root).resolve()/'docs'/'dashboard.html').resolve()
+  if out==prod:raise ValueError('Demo mode refuses the production artifact path docs/dashboard.html; pass an explicit non-production --output.')
+ result,d=render_html(root,repo,Path(input_path).read_text(encoding='utf8'),mode)
  Path(output_path).parent.mkdir(parents=True,exist_ok=True);Path(output_path).write_text(result,encoding='utf8');return d
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--repo',required=True);ap.add_argument('--root',required=True);ap.add_argument('--input',required=True);ap.add_argument('--output',required=True);a=ap.parse_args();render(a.root,a.repo,a.input,a.output)
+ ap=argparse.ArgumentParser();ap.add_argument('--repo',required=True);ap.add_argument('--root',required=True);ap.add_argument('--input',required=True);ap.add_argument('--output',required=True);ap.add_argument('--mode',default='production',choices=['production','demo'],help='production publishes only validated public snapshots; demo renders the explicit offline demonstration')
+ a=ap.parse_args();render(a.root,a.repo,a.input,a.output,a.mode)
 if __name__=='__main__':main()
