@@ -1,10 +1,18 @@
-"""Build docs/dashboard.html: the stunning self-contained Plotly dashboard.
+"""Build the dashboard HTML.
 
-Sections: KPI cards, campus map with pins, ranked digest, classifier
-report (precision/recall + calibration), historical analytics
-(top clubs, day x time heatmap), watchlist alerts.
+Two explicit modes:
 
-Run: PYTHONPATH=src .venv/bin/python scripts/make_dashboard.py
+- Production (default): renders the validated public SB Engaged snapshot to
+  docs/dashboard.html via portfolio_ui/renderer.py in production mode. If no
+  public snapshot exists, it refuses to build anything instead of silently
+  falling back to seeded demo content.
+- Demo (--demo): builds the explicit offline demonstration dashboard from
+  data/seed_events.json. The demo is never written to the production artifact
+  path docs/dashboard.html; it defaults to docs/demo-dashboard.html.
+
+The daily workflow never invokes the demo path.
+
+Run: PYTHONPATH=src .venv/bin/python scripts/make_dashboard.py [--demo]
 """
 
 import json
@@ -38,14 +46,16 @@ GREEN = "#3fb950"
 BLUE = "#58a6ff"
 
 
-def load_events() -> list[Event]:
-    with open(os.path.join(ROOT, "data", "seed_events.json")) as f:
+def load_events(root=None) -> list[Event]:
+    root = root or ROOT
+    with open(os.path.join(root, "data", "seed_events.json")) as f:
         raw = json.load(f)
     return [Event.from_dict(d) for d in raw]
 
 
-def load_places() -> dict:
-    with open(os.path.join(ROOT, "data", "campus_places.json")) as f:
+def load_places(root=None) -> dict:
+    root = root or ROOT
+    with open(os.path.join(root, "data", "campus_places.json")) as f:
         return json.load(f)
 
 
@@ -124,10 +134,11 @@ def ranked_table(ranked: list[Event]) -> go.Figure:
     return fig
 
 
-def classifier_report() -> tuple[go.Figure, go.Figure]:
-    with open(os.path.join(ROOT, "models", "metrics.json")) as f:
+def classifier_report(root=None) -> tuple[go.Figure, go.Figure]:
+    root = root or ROOT
+    with open(os.path.join(root, "models", "metrics.json")) as f:
         m = json.load(f)
-    cal = np.load(os.path.join(ROOT, "models", "calibration.npz"))
+    cal = np.load(os.path.join(root, "models", "calibration.npz"))
     y_true, y_prob = cal["y_true"], cal["y_prob"]
 
     perf = go.Figure(data=[go.Bar(
@@ -201,16 +212,44 @@ def watchlist_html(alerts: list[watchlist_mod.Alert], favorites: list[str]) -> s
     return (f"<p style='color:#8b949e'>Watching: {', '.join(favorites)}</p>{items}")
 
 
-def main():
-    events = load_events()
-    places = load_places()
+def main(root=None, demo=False, output=None):
+    """Build the dashboard. Returns a process exit code.
+
+    Production (demo=False) renders only the validated public snapshot to
+    docs/dashboard.html and refuses to build anything when no public snapshot
+    exists. Demo (demo=True) builds the explicit offline seeded demonstration
+    to a non-production output path.
+    """
+    from pathlib import Path as _Path
+    root = _Path(root) if root else _Path(__file__).resolve().parents[1]
+    if not demo:
+        snapshot = root / "data/sbengaged-events.json"
+        if not snapshot.exists():
+            print("No public source snapshot exists; refusing to build a seeded demo as the production artifact. Use --demo for the explicit offline demonstration.")
+            return 1
+        sys.path.insert(0, str(root / "portfolio_ui"))
+        from renderer import render
+        render(root, "freefood-radar", root / "portfolio_ui/original-dashboard-snapshot.html", root / "docs/dashboard.html", mode="production")
+        print("production dashboard -> %s" % (root / "docs/dashboard.html"))
+        return 0
+    out = _Path(output) if output else root / "docs/demo-dashboard.html"
+    prod = (root / "docs/dashboard.html").resolve()
+    if out.resolve() == prod:
+        print("Refusing to write the demo to the production artifact path docs/dashboard.html.")
+        return 1
+    return _build_demo(root, out)
+
+
+def _build_demo(root, out):
+    events = load_events(root)
+    places = load_places(root)
     model = load_model()
     _, ranked = digest_mod.build_digest(events, model)
     s = stats_mod.summary(events)
     favorites = watchlist_mod.load_favorites()
     alerts = watchlist_mod.check(ranked, favorites)
 
-    perf_fig, calib_fig = classifier_report()
+    perf_fig, calib_fig = classifier_report(root)
     clubs_fig, heat_fig = analytics_figures(events)
 
     parts = [
@@ -243,29 +282,27 @@ def main():
             f"<body style='background:{BG};color:{TEXT};font-family:system-ui,sans-serif;"
             "max-width:1100px;margin:0 auto;padding:24px'>" + "\n".join(parts) + "</body></html>")
 
-    os.makedirs(DOCS, exist_ok=True)
-    out = os.path.join(DOCS, "dashboard.html")
+    os.makedirs(os.path.dirname(str(out)), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
-        f.write(_portfolio_html(html))
-    print(f"dashboard -> {out} ({os.path.getsize(out)/1e6:.1f} MB)")
+        f.write(_portfolio_html(html, mode="demo"))
+    print(f"demo dashboard -> {out} ({os.path.getsize(out)/1e6:.1f} MB)")
+    return 0
 
 
 
-def _portfolio_html(raw):
+def _portfolio_html(raw, mode="production"):
     """Presentation-only transform of this run’s freshly calculated figures."""
     import sys
     from pathlib import Path
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root / "portfolio_ui"))
     from renderer import render_html
-    return render_html(root, 'freefood-radar', raw)[0]
+    return render_html(root, 'freefood-radar', raw, mode=mode)[0]
 
 if __name__ == "__main__":
-    from pathlib import Path
-    project_root = Path(__file__).resolve().parents[1]
-    if (project_root / "data/sbengaged-events.json").exists():
-        sys.path.insert(0, str(project_root / "portfolio_ui"))
-        from renderer import render
-        render(project_root, "freefood-radar", project_root / "portfolio_ui/original-dashboard-snapshot.html", project_root / "docs/dashboard.html")
-    else:
-        main()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--demo", action="store_true", help="Build the explicit offline demonstration dashboard from seeded data (never the production artifact).")
+    ap.add_argument("--output", default=None, help="Demo output path (demo mode only).")
+    a = ap.parse_args()
+    raise SystemExit(main(demo=a.demo, output=a.output))
