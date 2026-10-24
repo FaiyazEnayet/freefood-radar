@@ -183,7 +183,7 @@ function food(){
 
  const sourceLink=el('a','','Open the official SB Engaged calendar ↗');sourceLink.href=S.source.listing_url;sourceLink.target='_blank';sourceLink.rel='noopener';intro.append(sourceLink);
 
- note('Locations that require sign-in remain withheld. This feed has no verified event coordinates, so it does not invent map pins. All event times below use America/New_York.',intro);
+ note('Locations that require sign-in remain withheld. All event times below use America/New_York.',intro);
 
  if(attempt.success===false)note('Latest refresh failed. Showing the last successful public feed fetch from '+dt(S.fetched_at)+'. '+(attempt.error||'See refresh status.'),intro);
 
