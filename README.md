@@ -18,7 +18,7 @@
 Freefood-Radar-SBU reads the public SB Engaged calendar at Stony Brook University and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains a model prediction.
 
 
-<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar-sbu/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261024" alt="Freefood-Radar-SBU demo"></a></p>
+<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar-sbu/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261024b" alt="Freefood-Radar-SBU demo"></a></p>
 
 
 An event’s predicted food relevance and the reliability of its listing are separate considerations. The interface keeps the official source, event time, snapshot freshness and location availability close to each recommendation. A saved candidate still requires checking the organizer’s current details; the public feed does not verify that food will be available when a student arrives.
@@ -73,7 +73,7 @@ flowchart LR
 
 The original labeled-text test is separate from the public feed. Its precision and recall describe that held-out sample, not verified campus food availability. Public-source events can still be cancelled, restricted or have locations withheld behind sign-in. The UI links back to the source rather than fabricating missing details.
 
-![Historical held-out text-classification results](docs/results.png)
+![Historical held-out text-classification results](docs/results.png?v=20261024)
 
 An official listing establishes that the event was published, not that food is free or available when a student arrives. The model probability and food-quality weight are ranking aids. Source freshness and organizer details remain necessary for a useful decision.
 
