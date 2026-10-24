@@ -10,12 +10,12 @@
 </p>
 
 <p align="center">
-  <a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="https://img.shields.io/badge/Open-Dashboard-8d482e?style=for-the-badge&labelColor=f4edda" alt="Open Dashboard"></a>
-  <a href="#method"><img src="https://img.shields.io/badge/Explore-Method-313f2c?style=for-the-badge&labelColor=f4edda" alt="Explore Method"></a>
-  <a href="#run-locally"><img src="https://img.shields.io/badge/Run-Locally-62664f?style=for-the-badge&labelColor=f4edda" alt="Run Locally"></a>
+  <a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="https://img.shields.io/badge/Open-Dashboard-8d482e?style=for-the-badge&labelColor=000000" alt="Open Dashboard"></a>
+  <a href="#method"><img src="https://img.shields.io/badge/Explore-Method-313f2c?style=for-the-badge&labelColor=000000" alt="Explore Method"></a>
+  <a href="#run-locally"><img src="https://img.shields.io/badge/Run-Locally-62664f?style=for-the-badge&labelColor=000000" alt="Run Locally"></a>
 </p>
 
-Freefood-Radar reads SB Engaged’s public calendar for events at Stony Brook University and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains an unverified model prediction.
+Freefood-Radar reads SB Engaged’s public calendar and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains an unverified model prediction.
 
 
 <p align="center"><a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261017b" alt="Freefood-Radar demo"></a></p>
