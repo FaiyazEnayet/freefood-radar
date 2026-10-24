@@ -2,8 +2,6 @@
 
 <h1 align="center">Freefood-Radar</h1>
 
-<p align="center">Public campus events, ranked with food evidence, from SB Engaged’s public calendar.</p>
-
 <p align="center">
   <a href="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml"><img src="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml/badge.svg?label=CI&labelColor=24292f" alt="CI"></a>
   <img src="https://img.shields.io/badge/license-MIT-8d482e?labelColor=24292f" alt="License: MIT">
