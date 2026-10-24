@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Docs
+- Centered the README header: uniform dark badge labels and three action buttons in the dashboard palette (Open Dashboard, Explore Method, Run Locally).
+
 ### Fixed
 - P1: the production dashboard can no longer carry seeded demonstration data.
   `portfolio_ui/renderer.py` now splits production render mode from the
