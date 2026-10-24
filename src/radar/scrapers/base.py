@@ -11,7 +11,7 @@ import requests
 
 from ..models import Event
 
-USER_AGENT = "freefood-radar/0.1 (+https://github.com/FaiyazEnayet/freefood-radar)"
+USER_AGENT = "freefood-radar-sbu/0.1 (+https://github.com/FaiyazEnayet/freefood-radar-sbu)"
 DEFAULT_DELAY = 2.0  # seconds between requests to the same host
 
 

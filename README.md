@@ -1,24 +1,24 @@
 <p align="center"><img src="docs/readme-banner.svg?v=type-20261017b" alt="Freefood-Radar: Public campus events, ranked with food evidence" width="1200"></p>
 
-<h1 align="center">Freefood-Radar</h1>
+<h1 align="center">Freefood-Radar-SBU</h1>
 
 <p align="center">
-  <a href="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml"><img src="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml/badge.svg?label=CI&labelColor=24292f" alt="CI"></a>
+  <a href="https://github.com/FaiyazEnayet/freefood-radar-sbu/actions/workflows/ci.yml"><img src="https://github.com/FaiyazEnayet/freefood-radar-sbu/actions/workflows/ci.yml/badge.svg?label=CI&labelColor=24292f" alt="CI"></a>
   <img src="https://img.shields.io/badge/license-MIT-c6a66b?labelColor=24292f" alt="License: MIT">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?labelColor=24292f" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/built%20with-scikit--learn%20%2B%20public%20ICS-301934?labelColor=24292f" alt="Built with scikit-learn + public ICS">
 </p>
 
 <p align="center">
-  <a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="https://img.shields.io/badge/Open-Dashboard-8d482e?style=for-the-badge&labelColor=f4edda" alt="Open Dashboard"></a>
+  <a href="https://faiyazenayet.github.io/freefood-radar-sbu/docs/dashboard.html"><img src="https://img.shields.io/badge/Open-Dashboard-8d482e?style=for-the-badge&labelColor=f4edda" alt="Open Dashboard"></a>
   <a href="#method"><img src="https://img.shields.io/badge/Explore-Method-313f2c?style=for-the-badge&labelColor=f4edda" alt="Explore Method"></a>
   <a href="#run-locally"><img src="https://img.shields.io/badge/Run-Locally-62664f?style=for-the-badge&labelColor=f4edda" alt="Run Locally"></a>
 </p>
 
-Freefood-Radar reads the public SB Engaged calendar at Stony Brook University and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains a model prediction.
+Freefood-Radar-SBU reads the public SB Engaged calendar at Stony Brook University and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains a model prediction.
 
 
-<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261017b" alt="Freefood-Radar demo"></a></p>
+<p align="center"><a href="https://faiyazenayet.github.io/freefood-radar-sbu/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261024" alt="Freefood-Radar-SBU demo"></a></p>
 
 
 An event’s predicted food relevance and the reliability of its listing are separate considerations. The interface keeps the official source, event time, snapshot freshness and location availability close to each recommendation. A saved candidate still requires checking the organizer’s current details; the public feed does not verify that food will be available when a student arrives.

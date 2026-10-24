@@ -19,7 +19,7 @@ from icalendar import Calendar
 FEED_URL = "https://sbengaged.stonybrook.edu/ical/stonybrook/ical_stonybrook.ics"
 LISTING_URL = "https://sbengaged.stonybrook.edu/events"
 NY = ZoneInfo("America/New_York")
-UA = "freefood-radar/0.2 (+https://github.com/FaiyazEnayet/freefood-radar)"
+UA = "freefood-radar-sbu/0.2 (+https://github.com/FaiyazEnayet/freefood-radar-sbu)"
 MAX_BYTES = 20 * 1024 * 1024
 ALLOWED_HOSTS = {"sbengaged.stonybrook.edu", "static-prod-us-east-1.campusgroups.com"}
 
