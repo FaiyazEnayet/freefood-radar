@@ -217,7 +217,7 @@ function food(){
 
   rows.slice(page*size,(page+1)*size).forEach(e=>{
 
-   const card=el('article','event public-event');card.append(el('span','badge','PUBLIC SOURCE · FOOD UNVERIFIED'),el('h3','',e.title),el('p','',e.club||'Organizer not listed'));
+   const card=el('article','event public-event');card.append(el('span','badge','PUBLIC SOURCE'),el('h3','',e.title),el('p','',e.club||'Organizer not listed'));
 
    card.append(el('p','event-time',e.all_day?dt(e.starts_at,true)+' · all day':dt(e.starts_at)+(e.ends_at?' – '+dt(e.ends_at):'')),el('p','',e.location_visibility==='withheld_by_source'?'Location withheld · sign in on SB Engaged':e.location||'Location not listed'));
 
