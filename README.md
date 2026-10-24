@@ -15,7 +15,7 @@
   <a href="#run-locally"><img src="https://img.shields.io/badge/Run-Locally-62664f?style=for-the-badge&labelColor=f4edda" alt="Run Locally"></a>
 </p>
 
-Freefood-Radar reads SB Engaged’s public calendar and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains an unverified model prediction.
+Freefood-Radar reads the public SB Engaged calendar at Stony Brook University and ranks possible food opportunities. Event facts stay attached to their official source; food availability remains an unverified model prediction.
 
 
 <p align="center"><a href="https://faiyazenayet.github.io/freefood-radar/docs/dashboard.html"><img src="docs/demo.gif?v=showcase-20261017b" alt="Freefood-Radar demo"></a></p>
