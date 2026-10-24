@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/readme-banner.svg?v=type-20261017b" alt="Freefood-Radar-SBU: Public campus events, ranked with food evidence" width="1200"></p>
+<p align="center"><img src="docs/readme-banner.svg?v=type-20261017b" alt="Freefood Radar SBU: Public campus events, ranked with food evidence" width="1200"></p>
 
 <h1 align="center">Freefood-Radar-SBU</h1>
 
