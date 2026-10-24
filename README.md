@@ -6,7 +6,7 @@
   <a href="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml"><img src="https://github.com/FaiyazEnayet/freefood-radar/actions/workflows/ci.yml/badge.svg?label=CI&labelColor=24292f" alt="CI"></a>
   <img src="https://img.shields.io/badge/license-MIT-8d482e?labelColor=24292f" alt="License: MIT">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?labelColor=24292f" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/built%20with-scikit--learn%20%2B%20public%20ICS-313f2c?labelColor=301934" alt="Built with scikit-learn + public ICS">
+  <img src="https://img.shields.io/badge/built%20with-scikit--learn%20%2B%20public%20ICS-301934?labelColor=24292f" alt="Built with scikit-learn + public ICS">
 </p>
 
 <p align="center">
